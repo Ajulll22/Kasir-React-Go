@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import {
   BrowserRouter,
-  Routes,
-  Route
+  Switch,
+  Route,
 } from "react-router-dom";
-import { NavComponents } from './components';
+import { NavComponents } from './components'
 import { Home, Sukses } from './pages'
-
 
 export default class App extends Component {
   render() {
@@ -14,10 +13,10 @@ export default class App extends Component {
       <BrowserRouter>
         <NavComponents />
         <main>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/sukses' element={<Sukses />} />
-          </Routes>
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route path="/sukses" component={Sukses} exact />
+          </Switch>
         </main>
       </BrowserRouter>
     )
