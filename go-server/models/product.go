@@ -8,5 +8,5 @@ type Product struct {
 	Status_product bool   `json:"status_product" gorm:"default:true"`
 	Gambar_product string `json:"gambar_product" gorm:"type:varchar(25)"`
 	Id_category    uint   `json:"id_category"`
-	Cart           []Cart `gorm:"foreignKey:Id_product;references:Id_product;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Cart           []Cart `json:"-" gorm:"foreignKey:Id_product;references:Id_product;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
