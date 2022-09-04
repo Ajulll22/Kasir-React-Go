@@ -40,7 +40,7 @@ export default class Hasil extends Component {
     this.setState({
       jumlah: this.state.jumlah + 1,
       totalHarga:
-        this.state.keranjangDetail.product.harga * (this.state.jumlah + 1),
+        this.state.keranjangDetail.product.harga_product * (this.state.jumlah + 1),
     });
   };
 
@@ -49,7 +49,7 @@ export default class Hasil extends Component {
       this.setState({
         jumlah: this.state.jumlah - 1,
         totalHarga:
-          this.state.keranjangDetail.product.harga * (this.state.jumlah - 1),
+          this.state.keranjangDetail.product.harga_product * (this.state.jumlah - 1),
       });
     }
   };
@@ -67,18 +67,16 @@ export default class Hasil extends Component {
 
     const data = {
       jumlah: this.state.jumlah,
-      total_harga: this.state.totalHarga,
-      product: this.state.keranjangDetail.product,
       keterangan: this.state.keterangan,
     };
 
     axios
-      .put(API_URL + "keranjangs/" + this.state.keranjangDetail.id, data)
+      .put(API_URL + "cart/" + this.state.keranjangDetail.id_cart, data)
       .then((res) => {
         this.props.getListKeranjang();
         swal({
           title: "Update Pesanan!",
-          text: "Sukses Update Pesanan " + data.product.nama,
+          text: "Sukses Update Pesanan",
           icon: "success",
           button: false,
           timer: 1500,
@@ -93,13 +91,13 @@ export default class Hasil extends Component {
     this.handleClose();
 
     axios
-      .delete(API_URL + "keranjangs/" + id)
+      .delete(API_URL + "cart/" + id)
       .then((res) => {
         this.props.getListKeranjang()
         swal({
           title: "Hapus Pesanan!",
           text:
-            "Sukses Hapus Pesanan " + this.state.keranjangDetail.product.nama,
+            "Sukses Hapus Pesanan " + this.state.keranjangDetail.product.nama_product,
           icon: "error",
           button: false,
           timer: 1500,
@@ -122,7 +120,7 @@ export default class Hasil extends Component {
             <ListGroup variant="flush">
               {keranjangs.map((menuKeranjang) => (
                 <ListGroup.Item
-                  key={menuKeranjang.id}
+                  key={menuKeranjang.id_cart}
                   onClick={() => this.handleShow(menuKeranjang)}
                   style={{ cursor: 'pointer' }} >
                   <Row>
@@ -134,8 +132,8 @@ export default class Hasil extends Component {
                       </h4>
                     </Col>
                     <Col>
-                      <h5>{menuKeranjang.product.nama}</h5>
-                      <p>Rp. {numberWithCommas(menuKeranjang.product.harga)} </p>
+                      <h5 >{menuKeranjang.product.nama_product}</h5>
+                      <p>Rp. {numberWithCommas(menuKeranjang.product.harga_product)} </p>
                     </Col>
                     <Col>
                       <strong className='float-right' >Rp. {numberWithCommas(menuKeranjang.total_harga)}</strong>
