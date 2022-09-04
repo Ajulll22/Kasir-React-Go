@@ -23,9 +23,9 @@ const ModalKeranjang = ({
                 <Form onSubmit={handleSubmit}>
                     <Modal.Header closeButton>
                         <Modal.Title>
-                            {keranjangDetail.product.nama}{" "}
+                            {keranjangDetail.product.nama_product}{" "}
                             <strong>
-                                (Rp. {numberWithCommas(keranjangDetail.product.harga)})
+                                (Rp. {numberWithCommas(keranjangDetail.product.harga_product)})
                             </strong>
                         </Modal.Title>
                     </Modal.Header>
