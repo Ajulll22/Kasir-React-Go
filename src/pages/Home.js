@@ -13,13 +13,13 @@ export default class Home extends Component {
 
         this.state = {
             menus: [],
-            dipilih: "Makanan",
+            dipilih: "",
             keranjangs: []
         }
     }
 
     componentDidMount() {
-        axios.get(API_URL + 'products?category.nama=' + this.state.dipilih)
+        axios.get(API_URL + 'products?id_category=' + this.state.dipilih)
             .then(res => {
                 const menus = res.data;
                 this.setState({ menus });
@@ -45,7 +45,7 @@ export default class Home extends Component {
     // }
 
     getListKeranjang = () => {
-        axios.get(API_URL + 'keranjangs')
+        axios.get(API_URL + 'cart')
             .then(res => {
                 const keranjangs = res.data;
                 this.setState({ keranjangs });
@@ -60,8 +60,9 @@ export default class Home extends Component {
             dipilih: value,
             menu: []
         })
+        console.log(value);
 
-        axios.get(API_URL + 'products?category.nama=' + value)
+        axios.get(API_URL + 'products?id_category=' + value)
             .then(res => {
                 const menus = res.data;
                 this.setState({ menus });
@@ -72,50 +73,19 @@ export default class Home extends Component {
     }
 
     masukKeranjang = (value) => {
-        axios.get(API_URL + 'keranjangs?product.id=' + value.id)
+        const keranjang = {
+            id_product: value
+        }
+        axios.post(API_URL + 'cart', keranjang)
             .then(res => {
-                if (res.data.length === 0) {
-                    const keranjang = {
-                        jumlah: 1,
-                        total_harga: value.harga,
-                        product: value
-                    }
-
-                    axios.post(API_URL + 'keranjangs', keranjang)
-                        .then(res => {
-                            this.getListKeranjang()
-                            swal({
-                                title: "Success",
-                                text: "Berhasil Masuk Keranjang " + keranjang.product.nama,
-                                icon: "success",
-                                button: false,
-                                timer: 1000,
-                            });
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                } else {
-                    const keranjang = {
-                        jumlah: res.data[0].jumlah + 1,
-                        total_harga: res.data[0].total_harga + value.harga,
-                        product: value
-                    }
-
-                    axios.put(API_URL + 'keranjangs/' + res.data[0].id, keranjang)
-                        .then(res => {
-                            swal({
-                                title: "Success",
-                                text: "Berhasil Masuk Keranjang " + keranjang.product.nama,
-                                icon: "success",
-                                button: false,
-                                timer: 1000,
-                            });
-                        })
-                        .catch(error => {
-                            console.log(error);
-                        })
-                }
+                this.getListKeranjang()
+                swal({
+                    title: "Success",
+                    text: "Berhasil Masuk Keranjang ",
+                    icon: "success",
+                    button: false,
+                    timer: 1000,
+                });
             })
             .catch(error => {
                 console.log(error);
@@ -137,7 +107,7 @@ export default class Home extends Component {
                             <hr />
                             <Row className='overflow-auto menu'>
                                 {menus && menus.map((menu) => (<Menus
-                                    key={menu.id}
+                                    key={menu.id_product}
                                     menu={menu}
                                     masukKeranjang={this.masukKeranjang}
                                 />))}
