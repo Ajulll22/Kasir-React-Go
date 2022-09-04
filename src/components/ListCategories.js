@@ -44,12 +44,12 @@ export default class ListCategories extends Component {
         <hr />
         <ListGroup>
           {categories && categories.map((category) => (
-            <ListGroup.Item key={category.id}
-              onClick={() => changeCategory(category.nama)}
-              className={dipilih === category.nama && "category-aktif"}
+            <ListGroup.Item key={category.id_category}
+              onClick={() => changeCategory(category.id_category)}
+              className={dipilih === category.id_category && "category-aktif"}
               style={{ cursor: 'pointer' }}>
               <h5>
-                <Icon nama={category.nama} /> {category.nama}
+                <Icon nama={category.nama_category} /> {category.nama_category}
               </h5>
             </ListGroup.Item>
           ))}
