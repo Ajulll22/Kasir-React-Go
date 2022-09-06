@@ -13,7 +13,7 @@ export default class Sukses extends Component {
                 console.log(keranjangs);
                 keranjangs.map(function (item) {
                     return axios
-                        .delete(API_URL + "keranjangs/" + item.id)
+                        .delete(API_URL + "cart/" + item.id_cart)
                         .then((res) => console.log(res))
                         .catch((error) => console.log(error))
                 })
