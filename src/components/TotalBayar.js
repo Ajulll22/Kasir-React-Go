@@ -3,20 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { Component } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import { numberWithCommas } from '../utils/utils';
-import axios from 'axios'
-import { API_URL } from '../utils/constants';
+
 
 
 export default class TotalBayar extends Component {
     submitTotalBayar = (totalBayar) => {
-        const pesanan = {
-            total_bayar: totalBayar,
-            menus: this.props.keranjangs
-        }
-
-        axios.post(API_URL + "pesanans", pesanan).then((res) => {
-            this.props.history.push('/sukses')
-        })
+        this.props.history.push('/sukses')
     };
 
     render() {
