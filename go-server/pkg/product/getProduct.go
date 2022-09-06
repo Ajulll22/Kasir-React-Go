@@ -11,7 +11,7 @@ func (h handler) GetProduct(c *fiber.Ctx) error {
 
 		var product models.Product
 
-		h.DB.Where("id_product = ?", id).First(&product)
+		h.DB.Joins("Category").First(&product, id)
 
 		return c.Status(fiber.StatusOK).JSON(&product)
 	}
@@ -19,14 +19,14 @@ func (h handler) GetProduct(c *fiber.Ctx) error {
 
 		var products []models.Product
 
-		h.DB.Where("id_category = ?", id).First(&products)
+		h.DB.Joins("Category").Where("products.id_category = ?", id).Find(&products)
 
 		return c.Status(fiber.StatusOK).JSON(&products)
 	}
 
 	var products []models.Product
 
-	result := h.DB.Find(&products)
+	result := h.DB.Joins("Category").Find(&products)
 	if result.Error != nil {
 		return fiber.NewError(fiber.StatusNotFound, result.Error.Error())
 	}
