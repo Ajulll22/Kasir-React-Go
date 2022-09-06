@@ -17,9 +17,12 @@ func (h handler) GetCart(c *fiber.Ctx) error {
 	}
 	var carts []models.Cart
 
-	result := h.DB.Find(&carts)
-	if result.Error != nil {
-		return fiber.NewError(fiber.StatusNotFound, result.Error.Error())
+	err := h.DB.Joins("JOIN products on products.id_product = carts.id_product").
+		Joins("JOIN categories on categories.id_category = products.id_category").
+		Preload("Product.Category").
+		Find(&carts).Error
+	if err != nil {
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
 	return c.Status(fiber.StatusOK).JSON(&carts)
