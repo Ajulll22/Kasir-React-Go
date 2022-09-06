@@ -4,15 +4,17 @@ import (
 	"go-server/config"
 	"go-server/models"
 
+	"encoding/json"
+
 	"github.com/gofiber/fiber/v2"
 )
 
-type CartRequest struct {
-	Id_product string `json:"id_product" validate:"required,number"`
+type AddRequest struct {
+	Id_product json.Number `json:"id_product" validate:"required,number"`
 }
 
 func (h handler) AddCart(c *fiber.Ctx) error {
-	data := new(CartRequest)
+	data := new(AddRequest)
 
 	if err := c.BodyParser(data); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
@@ -37,7 +39,9 @@ func (h handler) AddCart(c *fiber.Ctx) error {
 		cart.Total_harga = cart.Jumlah * product.Harga_product
 
 		h.DB.Save(&cart)
-		return c.Status(fiber.StatusOK).JSON(&cart)
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "Success",
+		})
 	}
 
 	cart.Jumlah = 1
@@ -45,5 +49,7 @@ func (h handler) AddCart(c *fiber.Ctx) error {
 	cart.Id_product = product.Id_product
 	h.DB.Create(&cart)
 
-	return c.Status(fiber.StatusCreated).JSON(&cart)
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"message": "Success",
+	})
 }
