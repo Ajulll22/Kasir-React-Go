@@ -5,12 +5,12 @@ import (
 
 	"go-server/config"
 	"go-server/db"
-	"go-server/models"
 	"go-server/pkg/cart"
 	"go-server/pkg/category"
 	"go-server/pkg/product"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
@@ -21,9 +21,10 @@ func main() {
 	}
 
 	app := fiber.New()
+	app.Use(cors.New())
 
 	db := db.Conect(c.DBUrl)
-	db.AutoMigrate(&models.Category{}, &models.Product{}, &models.Cart{}, &models.Transaction{})
+	// db.AutoMigrate(&models.Category{}, &models.Product{}, &models.Cart{}, &models.Transaction{})
 
 	product.RegisterRoutes(app, db)
 	category.RegisterRoutes(app, db)
