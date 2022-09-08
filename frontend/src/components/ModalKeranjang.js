@@ -68,7 +68,7 @@ const ModalKeranjang = ({
 
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className="me-2" variant="danger" onClick={() => hapusPesanan(keranjangDetail.id_product)}>
+                        <Button className="me-2" variant="danger" onClick={() => hapusPesanan(keranjangDetail.id_cart)}>
                             <FontAwesomeIcon icon={faTrash} /> Hapus Pesanan
                         </Button>
                         <Button variant="primary" type="submit">
